@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "The backend for this website is intentionally designed as a lightweight, service-oriented communication layer that supports a client-facing fire safety service site. Its primary function is to receive inquiry requests from users and forward them directly to the business via email. This enables lead generation without requiring a database, user accounts, or an administrative dashboard.",
+  "main": "ating the need for dynamic rendering or database-driven content. “Call Now” and other action buttons operate through direct device integrations (e.g., tel: links) and do not require backend support.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server"
+  },
+  "author": "anshu developer",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
+  }
+}
