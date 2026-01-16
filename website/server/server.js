@@ -1,17 +1,27 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import contactRouter from "./src/routes/contact.route.js";
-
-dotenv.config();
 
 const app = express();
 const PORT = 5000; // as requested
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
-app.use("/api/contact", contactRouter);
+// Import after dotenv.config() to ensure env vars are loaded
+import("./src/routes/contact.route.js").then((module) => {
+  const contactRouter = module.default;
+  app.use("/api/contact", contactRouter);
+});
 
 app.get("/", (req, res) => {
   res.send("MS Fire Safety Backend Running...");

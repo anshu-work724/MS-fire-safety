@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import axiosInstance from "../utilities/axiosInstance";
 
 const WHATSAPP_NUMBER = "8077688382"; // use digits only (country code + number)
 
@@ -24,53 +25,39 @@ const Contact = () => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfUrl, setPdfUrl] = useState("/prices.pdf");
 
-  // Submit form to backend which will forward to WhatsApp (no redirect here)
+  // Submit form to backend which will send email
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
-    const name = form.get("name") || "N/A";
+    const name = form.get("name") || "";
+    const email = form.get("email") || "";
     const phone = form.get("phone") || "";
-    const company = form.get("company") || "N/A";
-    const date = form.get("date") || "Flexible";
-    const msg = form.get("message") || "Please contact me.";
+    const message = form.get("message") || "";
 
-    if (!phone) {
-      showToast("Please provide a contact phone number.");
+    if (!name || !email || !phone) {
+      showToast("Please provide name, email, and phone.");
       return;
     }
 
-    // Instead of opening WhatsApp directly, send to backend which will forward the message
     const payload = {
       name,
+      email,
       phone,
-      company,
-      preferred: date,
-      message: msg,
-      source: "website",
+      message,
     };
 
     setSubmitting(true);
     try {
-      // TODO: implement server endpoint POST /api/enquiries which accepts JSON payload
-      // and forwards the enquiry to WhatsApp / stores it. Response should be { message } on success.
-      const res = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok) {
-        showToast(
-          data.message ||
-            "Request sent successfully. We will contact you shortly."
-        );
-        e.target.reset();
-      } else {
-        showToast(data.message || "Failed to send request. Please try again.");
-      }
+      const response = await axiosInstance.post("/api/contact", payload);
+      showToast(response.data.message || "Inquiry submitted successfully.");
+      e.target.reset();
     } catch (err) {
-      console.error(err);
-      showToast("Network error. Please try again.");
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        "Failed to submit inquiry. Please try again.";
+      console.error("Contact form error:", err);
+      showToast(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -105,17 +92,25 @@ const Contact = () => {
       <header
         ref={headerRef}
         className={`mb-8 text-center transition-all duration-700 ${
-          headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          headerVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-4"
         }`}
       >
         <h1 className="mb-4">Contact Us</h1>
         <p className="text-base-content/80 mt-2 text-lg">
           Phone:{" "}
-          <a className="text-primary hover:underline transition-all duration-200" href="tel:+91-8077688382">
+          <a
+            className="text-primary hover:underline transition-all duration-200"
+            href="tel:+91-8077688382"
+          >
             +91-8077688382
           </a>{" "}
           | Email:{" "}
-          <a href="mailto:info@yourcompany.com" className="text-primary hover:underline transition-all duration-200">
+          <a
+            href="mailto:info@yourcompany.com"
+            className="text-primary hover:underline transition-all duration-200"
+          >
             info@yourcompany.com
           </a>
         </p>
@@ -145,7 +140,10 @@ const Contact = () => {
               Request Site Visit
             </button>
 
-            <a href="tel:+91-8077688382" className="btn btn-outline transition-all duration-300 hover:scale-105 hover:shadow-md">
+            <a
+              href="tel:+91-8077688382"
+              className="btn btn-outline transition-all duration-300 hover:scale-105 hover:shadow-md"
+            >
               Call Now
             </a>
           </div>
@@ -166,9 +164,7 @@ const Contact = () => {
         </div>
 
         <div>
-          <h2 className="mb-4">
-            Enquiry Form (we'll send your request via WhatsApp)
-          </h2>
+          <h2 className="mb-4">Enquiry Form</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -181,27 +177,20 @@ const Contact = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium">Phone *</label>
+              <label className="block text-sm font-medium">Email *</label>
               <input
-                name="phone"
+                name="email"
+                type="email"
                 required
                 className="input input-bordered w-full"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium">Company</label>
-              <input name="company" className="input input-bordered w-full" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">
-                Preferred date/time
-              </label>
+              <label className="block text-sm font-medium">Phone *</label>
               <input
-                name="date"
-                type="text"
-                placeholder="e.g., 2026-01-10 morning"
+                name="phone"
+                required
                 className="input input-bordered w-full"
               />
             </div>
