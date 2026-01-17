@@ -93,7 +93,9 @@ html {
 
 /* Smooth transitions for theme switching */
 body {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   background-color: hsl(var(--b1));
 }
 
@@ -112,7 +114,7 @@ section {
 }
 
 /* Glass morphism utility */
-.glass {
+/* .glass {
   background: rgba(200, 200, 200, 0.24);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -122,11 +124,67 @@ section {
 [data-theme="dark"] .glass {
   background: rgba(110, 110, 110, 0.24);
   border: 1px solid rgba(255, 255, 255, 0.1);
+} */
+
+/* Enhanced Glass Morphism for Navbar */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="dark"] .navbar-glass {
+  background: rgba(110, 110, 110, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Hero Video Section Styles */
+.hero-video-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.hero-video-section video {
+  object-position: center;
+  will-change: auto;
+}
+
+/* Ensure text over video is readable in all themes */
+.hero-video-section h1,
+.hero-video-section p,
+.hero-video-section .btn {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
+}
+
+/* Responsive adjustments for hero video */
+@media (max-width: 768px) {
+  .hero-video-section {
+    min-height: 70vh;
+    padding: 2rem 0;
+  }
+
+  .hero-video-section h1 {
+    font-size: 1.875rem;
+  }
+
+  .hero-video-section p {
+    font-size: 1rem;
+  }
 }
 
 /* Card hover effects */
 .card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .card:hover {

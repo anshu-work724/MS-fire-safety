@@ -1,5 +1,6 @@
 import React from "react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import heroVideo from "../assets/video/hero.mp4.mp4";
 
 const Home = () => {
   const scrollTo = (id) => {
@@ -14,69 +15,86 @@ const Home = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      {/* HERO */}
-      <section
-        ref={heroRef}
-        className={`text-center max-w-4xl mx-auto transition-opacity duration-700 ${
-          heroVisible ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <h1 className="mb-6">
-          Complete Fire Safety Solutions for Industries & Commercial Buildings
-        </h1>
+      {/* HERO WITH VIDEO BACKGROUND */}
+      <section ref={heroRef} className="hero-video-section">
+        {/* Video Background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src={heroVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-        <p className="text-lg mb-8 max-w-2xl mx-auto text-base-content/80">
-          We are <strong>SafeFire Solutions</strong> — trusted fire safety
-          experts with over <strong>15 years</strong> of experience protecting
-          commercial and industrial sites.
-        </p>
+        {/* Dark Overlay for Readability */}
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/50 transition-colors duration-300" />
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="tel:+1234567890"
-            className="btn btn-primary flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-            aria-label="Call now"
-          >
-            {/* Phone icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        {/* Hero Content */}
+        <div
+          className={`relative z-10 text-center max-w-4xl mx-auto px-4 transition-opacity duration-700 ${
+            heroVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <h1 className="mb-6 text-white drop-shadow-lg">
+            Complete Fire Safety Solutions for Industries & Commercial Buildings
+          </h1>
+
+          <p className="text-lg mb-8 max-w-2xl mx-auto text-white/90 drop-shadow-md">
+            We are <strong>SafeFire Solutions</strong> — trusted fire safety
+            experts with over <strong>15 years</strong> of experience protecting
+            commercial and industrial sites.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="tel:+1234567890"
+              className="btn btn-primary flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/50"
+              aria-label="Call now"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 5h2l2 5-1.5 1.5A11 11 0 0016.5 21l1.5-1.5L21 21v-2a16 16 0 00-18-14z"
-              />
-            </svg>
-            Call Now
-          </a>
+              {/* Phone icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 5h2l2 5-1.5 1.5A11 11 0 0016.5 21l1.5-1.5L21 21v-2a16 16 0 00-18-14z"
+                />
+              </svg>
+              Call Now
+            </a>
 
-          <button
-            onClick={() => scrollTo("contact")}
-            className="btn btn-outline flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md"
-            aria-label="Get a quote"
-          >
-            {/* Mail icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <button
+              onClick={() => scrollTo("contact")}
+              className="btn btn-outline text-white border-white hover:bg-white hover:text-base-content flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              aria-label="Get a quote"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8z"
-              />
-            </svg>
-            Get a Quote
-          </button>
+              {/* Mail icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8z"
+                />
+              </svg>
+              Get a Quote
+            </button>
+          </div>
         </div>
       </section>
 

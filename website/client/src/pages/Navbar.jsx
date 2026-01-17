@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../hooks/useTheme";
+import logoImg from "../assets/Logo/logo.png.png";
 
 const NAV_ITEMS = [
   { id: "home", label: "Home" },
@@ -22,7 +23,7 @@ const Navbar = () => {
   // Observe sections to highlight the active nav item
   useEffect(() => {
     const sections = NAV_ITEMS.map((n) => document.getElementById(n.id)).filter(
-      Boolean
+      Boolean,
     );
     if (!sections.length) return;
 
@@ -59,7 +60,7 @@ const Navbar = () => {
         root: null,
         rootMargin: "-20% 0px -60% 0px",
         threshold: [0, 0.1, 0.5, 1],
-      }
+      },
     );
 
     sections.forEach((s) => observer.observe(s));
@@ -92,7 +93,7 @@ const Navbar = () => {
 
   return (
     <div className="fixed left-1 right-1 top-1 z-40 transition-all duration-300">
-      <div className="glass rounded-lg shadow-md border-b border-base-300 dark:border-base-200">
+      <div className="navbar-glass rounded-lg shadow-md border-b border-base-300/40 dark:border-base-200/40 backdrop-blur-md bg-gradient-to-r from-white/10 to-white/5 dark:from-base-300/10 dark:to-base-300/5">
         <div className="navbar container mx-auto px-4 py-2">
           <div className="navbar-start">
             <div className="lg:hidden">
@@ -118,7 +119,7 @@ const Navbar = () => {
               </button>
 
               {open && (
-                <ul className="menu menu-sm dropdown-content glass rounded-box z-[1] mt-3 w-52 p-2 shadow-lg border border-base-300 dark:border-base-200">
+                <ul className="menu menu-sm dropdown-content navbar-glass rounded-box z-[1] mt-3 w-52 p-2 shadow-lg border border-base-300/40 dark:border-base-200/40 backdrop-blur-md">
                   {NAV_ITEMS.map((item) => (
                     <li key={item.id}>
                       <button
@@ -139,9 +140,14 @@ const Navbar = () => {
 
             <button
               onClick={() => scrollTo("home")}
-              className="btn btn-ghost text-xl font-bold text-primary hover:text-primary-focus transition-colors duration-200"
+              className="btn btn-ghost p-0 h-auto w-auto hover:bg-transparent transition-opacity duration-200 hover:opacity-80"
+              aria-label="Home"
             >
-              Logo
+              <img
+                src={logoImg}
+                alt="Logo"
+                className="h-12 w-auto object-contain"
+              />
             </button>
           </div>
 

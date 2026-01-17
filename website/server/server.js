@@ -5,15 +5,16 @@ import express from "express";
 import cors from "cors";
 
 const app = express();
-const PORT = 5000; // as requested
+const PORT = process.env.PORT || 5000;
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: CLIENT_ORIGIN,
     methods: ["POST", "GET"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
@@ -28,5 +29,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import axiosInstance from "../utilities/axiosInstance";
 
-const WHATSAPP_NUMBER = "8077688382"; // use digits only (country code + number)
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER; // use digits only (country code + number)
 
 const Contact = () => {
   const [toast, setToast] = useState(null);
@@ -102,16 +102,16 @@ const Contact = () => {
           Phone:{" "}
           <a
             className="text-primary hover:underline transition-all duration-200"
-            href="tel:+91-8077688382"
+            href="tel:+91-9627310683"
           >
-            +91-8077688382
+            +91-9627310683
           </a>{" "}
           | Email:{" "}
           <a
-            href="mailto:info@yourcompany.com"
+            href="mailto:msfiresystems1@gmail.com"
             className="text-primary hover:underline transition-all duration-200"
           >
-            info@yourcompany.com
+            msfiresystems1@gmail.com
           </a>
         </p>
       </header>
@@ -141,7 +141,7 @@ const Contact = () => {
             </button>
 
             <a
-              href="tel:+91-8077688382"
+              href="tel:+91-9627310683"
               className="btn btn-outline transition-all duration-300 hover:scale-105 hover:shadow-md"
             >
               Call Now
@@ -216,7 +216,7 @@ const Contact = () => {
                   <>
                     <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                       <circle
-                        className="opacity-25"
+                        className="opacity-50"
                         cx="12"
                         cy="12"
                         r="10"
