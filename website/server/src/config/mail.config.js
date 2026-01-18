@@ -8,6 +8,31 @@ export const EMAIL_SUBJECT =
 // Uses STARTTLS on port 587 for Render compatibility (avoids implicit TLS timeout on port 465)
 // Note: Gmail requires an App Password (not regular account password)
 // Generate at: https://myaccount.google.com/apppasswords
+
+// Validate required env variables
+const validateEnvVars = () => {
+  const required = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"];
+  const missing = required.filter((key) => !process.env[key]);
+
+  if (missing.length > 0) {
+    console.error(
+      "[SMTP Config] ERROR: Missing required environment variables:",
+      missing,
+    );
+    console.log("[SMTP Config] Available env vars:", {
+      SMTP_HOST: process.env.SMTP_HOST ? "✓" : "✗",
+      SMTP_PORT: process.env.SMTP_PORT ? "✓" : "✗",
+      SMTP_SECURE: process.env.SMTP_SECURE ? "✓" : "✗",
+      SMTP_TLS_REQUIRED: process.env.SMTP_TLS_REQUIRED ? "✓" : "✗",
+      SMTP_USER: process.env.SMTP_USER ? "✓" : "✗",
+      SMTP_PASS: process.env.SMTP_PASS ? "✓" : "✗",
+      BUSINESS_EMAIL: process.env.BUSINESS_EMAIL ? "✓" : "✗",
+    });
+  }
+};
+
+validateEnvVars();
+
 export const smtpConfig = {
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),

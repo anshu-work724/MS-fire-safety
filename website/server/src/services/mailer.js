@@ -8,7 +8,27 @@ import {
 
 export const sendInquiryEmail = async ({ name, email, phone, message }) => {
   try {
-    console.log(`[Email] Creating transporter for ${smtpConfig.auth.user}...`);
+    // Debug: Log env vars before creating transporter
+    console.log("[Email] SMTP Configuration:", {
+      host: smtpConfig.host,
+      port: smtpConfig.port,
+      user: smtpConfig.auth.user ? "✓ Loaded" : "✗ MISSING",
+      pass: smtpConfig.auth.pass ? "✓ Loaded" : "✗ MISSING",
+      requireTLS: smtpConfig.requireTLS,
+      secure: smtpConfig.secure,
+    });
+
+    console.log(
+      `[Email] Creating transporter for ${smtpConfig.auth.user || "UNDEFINED USER"}...`
+    );
+
+    // Validate auth before creating transporter
+    if (!smtpConfig.auth.user || !smtpConfig.auth.pass) {
+      throw new Error(
+        "SMTP credentials missing. Check SMTP_USER and SMTP_PASS environment variables on Render."
+      );
+    }
+
     const transporter = nodemailer.createTransport(smtpConfig);
 
     // Verify SMTP connection before sending
@@ -41,7 +61,7 @@ Time: ${new Date().toLocaleString()}
     const result = await transporter.sendMail(mailOptions);
     console.log(
       "[Email] Email sent successfully. Message ID:",
-      result.messageId,
+      result.messageId
     );
 
     return {
