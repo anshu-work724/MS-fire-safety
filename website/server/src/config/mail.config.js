@@ -38,18 +38,44 @@ export const smtpConfig = {
   port: Number(process.env.SMTP_PORT),
   secure: process.env.SMTP_SECURE === "true", // false for STARTTLS on port 587
   requireTLS: process.env.SMTP_TLS_REQUIRED === "true", // true for STARTTLS
-  connectionTimeout: 15000, // 15 seconds for initial connection
-  socketTimeout: 15000, // 15 seconds for socket operations
-  greetingTimeout: 10000, // 10 seconds for initial greeting
-  logger: true, // Enable logging
-  debug: true, // Enable debug output
+
+  // Connection timeouts - Render requires higher values
+  connectionTimeout: 30000, // 30 seconds for initial connection
+  socketTimeout: 30000, // 30 seconds for socket operations
+  greetingTimeout: 15000, // 15 seconds for initial greeting
+
+  // Connection pooling
+  pool: {
+    maxConnections: 1,
+    maxMessages: 100,
+    rateDelta: 1000,
+    rateLimit: 5,
+  },
+
+  // Explicit auth method
+  authMethod: "LOGIN",
+
+  // TLS configuration - more permissive for Render
+  tls: {
+    minVersion: "TLSv1.2",
+    rejectUnauthorized: false,
+    servername: process.env.SMTP_HOST,
+  },
+
+  // Disable file/URL access
+  disableFileAccess: true,
+  disableUrlAccess: true,
+
+  // Enhanced socket settings
+  secure: false, // Use STARTTLS instead of implicit TLS
+
+  // Logging
+  logger: true,
+  debug: true,
+
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    minVersion: "TLSv1.2",
-    rejectUnauthorized: false, // Allow self-signed certs
   },
 };
 
