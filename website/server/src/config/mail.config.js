@@ -13,10 +13,18 @@ export const smtpConfig = {
   port: Number(process.env.SMTP_PORT),
   secure: process.env.SMTP_SECURE === "true", // false for STARTTLS on port 587
   requireTLS: process.env.SMTP_TLS_REQUIRED === "true", // true for STARTTLS
-  connectionTimeout: 10000, // 10 seconds
+  connectionTimeout: 15000, // 15 seconds for initial connection
+  socketTimeout: 15000, // 15 seconds for socket operations
+  greetingTimeout: 10000, // 10 seconds for initial greeting
+  logger: true, // Enable logging
+  debug: true, // Enable debug output
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
+  },
+  tls: {
+    minVersion: "TLSv1.2",
+    rejectUnauthorized: false, // Allow self-signed certs
   },
 };
 

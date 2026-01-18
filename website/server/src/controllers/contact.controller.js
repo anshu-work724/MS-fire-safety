@@ -11,11 +11,12 @@ export const handleContactForm = async (req, res) => {
       });
     }
 
+    console.log("[Contact] Processing inquiry from:", email);
     const emailResult = await sendInquiryEmail({ name, email, phone, message });
 
     // Check if email was sent successfully
     if (!emailResult.success) {
-      console.error("Email send error:", emailResult);
+      console.error("[Contact] Email send failed:", emailResult);
       return res.status(500).json({
         success: false,
         message: "Failed to send inquiry. Please try again later.",
@@ -23,13 +24,14 @@ export const handleContactForm = async (req, res) => {
       });
     }
 
+    console.log("[Contact] Inquiry submitted successfully");
     return res.status(200).json({
       success: true,
       message: "Inquiry submitted successfully.",
       messageId: emailResult.messageId,
     });
   } catch (err) {
-    console.error("Contact form error:", err);
+    console.error("[Contact] Unexpected error:", err);
     return res.status(500).json({
       success: false,
       message: "Something went wrong sending your inquiry.",
